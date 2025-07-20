@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class Solution {
+    List<String> result = new ArrayList<>();
+
+    boolean isSafe(int i, int j, int n) {
+        return i >= 0 && i < n && j >= 0 && j < n;
+    }
+
+    void solve(int i, int j, int[][] m, int n, StringBuilder temp) {
+        if (!isSafe(i, j, n) || m[i][j] == 0) {
+            return;
+        }
+          if (i == n - 1 && j == n - 1) {
+          result.add(temp.toString());
+          return;
+        }
+
+        m[i][j] = 0; 
+        temp.append('D');
+        solve(i + 1, j, m, n, temp);
+        temp.deleteCharAt(temp.length() - 1); // backtrack
+
+        temp.append('R');
+        solve(i, j + 1, m, n, temp);
+        temp.deleteCharAt(temp.length() - 1);
+
+        temp.append('U');
+        solve(i - 1, j, m, n, temp);
+        temp.deleteCharAt(temp.length() - 1);
+
+        temp.append('L');
+        solve(i, j - 1, m, n, temp);
+        temp.deleteCharAt(temp.length() - 1);
+
+        m[i][j] = 1; 
+    }
+
+    public List<String> findPath(int[][] m, int n) {
+        result.clear();
+        if (m[0][0] == 0 || m[n - 1][n - 1] == 0) {
+            return result;
+        }
+
+        StringBuilder temp = new StringBuilder();
+        solve(0, 0, m, n, temp);
+        return result;
+    }
+}
