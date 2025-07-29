@@ -1,0 +1,22 @@
+class Solution {
+
+    static Boolean isSubsetSum(int arr[], int sum) {
+        int n=arr.length;
+        Boolean[][] dp=new Boolean[n+1][sum+1];
+        return solve(arr, sum, n,dp);
+        
+    }
+    static boolean solve(int arr[], int sum, int n, Boolean[][] dp){
+        if(sum==0) return true;
+        if(n==0) return false;
+        if(dp[n][sum]!=null){
+            return dp[n][sum];
+        }
+        if(arr[n-1]<=sum){
+            dp[n][sum]=solve(arr,sum-arr[n-1],n-1,dp) || solve(arr,sum,n-1,dp);
+        }else{
+            dp[n][sum]=solve(arr,sum,n-1,dp);
+        }
+        return dp[n][sum];
+    }
+}
